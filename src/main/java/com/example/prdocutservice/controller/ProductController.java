@@ -43,6 +43,7 @@ public class ProductController {
         System.out.println(body);
         Product result =productService.update(body, id);
         return ResponseEntity.ok(result);
+
         //return new ResponseEntity(productService.update(body, id), HttpStatus.UPGRADE_REQUIRED);
     }
 
