@@ -1,23 +1,26 @@
 package com.example.prdocutservice.service;
 
 import com.example.prdocutservice.entity.Product;
+import com.example.prdocutservice.rabbitmq.Message;
+import com.example.prdocutservice.rabbitmq.Producer;
 import com.example.prdocutservice.repository.ProductRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Date;
+import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class IProductServiceImpl implements IProductService {
 
     private final ProductRepository productRepository;
+    @Autowired
+    private Producer sendMessage;
 
     public IProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -60,8 +63,15 @@ public class IProductServiceImpl implements IProductService {
         Product product = productRepository.getById(id);
         try {
             JSONObject data = new JSONObject(body);
-            newPrice = data.getDouble("price");
-            product.setPrice(newPrice);
+            //System.out.println(data.keys());
+            if(data.has("price")) {
+                newPrice = data.getDouble("price");
+                product.setPrice(newPrice);
+
+            }else if(data.has("mobilePrice")){
+                newPrice = data.getDouble("mobilePrice");
+                product.setMobilePrice(newPrice);
+            }
             updateProductPrice(id, newPrice);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -76,6 +86,14 @@ public class IProductServiceImpl implements IProductService {
         Product updatedProduct= new Product();
         updatedProduct = productRepository.getById(id);
         productRepository.save(updatedProduct);
+        Message message = new Message();
+        message.setId(UUID.randomUUID().toString());
+        message.setCreatedAt(new Date());
+        message.setMessage(updatedProduct.getId()+" id'li ürünün yeni fiyatı " + price);
+        message.setSeen(false);
+        sendMessage.sendToQueue(message);
+        System.out.println(message.getMessage());
+
     }
 
 
