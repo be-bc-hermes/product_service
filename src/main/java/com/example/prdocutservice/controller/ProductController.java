@@ -37,10 +37,11 @@ public class ProductController {
     Product updateProduct(RequestBody Product, Product product) {
         return productService.update(product);
     }*/
+
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProduct(@RequestBody String body, @PathVariable Long id){
         System.out.println(body);
-        Product result = productService.update(body, id);
+        Product result =productService.update(body, id);
         return ResponseEntity.ok(result);
         //return new ResponseEntity(productService.update(body, id), HttpStatus.UPGRADE_REQUIRED);
     }
