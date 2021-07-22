@@ -60,19 +60,23 @@ public class IProductServiceImpl implements IProductService {
     @Override
     public Product update(String body, Long id) {
         Double newPrice = null;
+        String priceType="";
         Product product = productRepository.getById(id);
+        Double oldPrice = product.getPrice();
         try {
             JSONObject data = new JSONObject(body);
             //System.out.println(data.keys());
             if(data.has("price")) {
+                priceType = "web";
                 newPrice = data.getDouble("price");
                 product.setPrice(newPrice);
 
             }else if(data.has("mobilePrice")){
+                priceType="mobil";
                 newPrice = data.getDouble("mobilePrice");
                 product.setMobilePrice(newPrice);
             }
-            updateProductPrice(id, newPrice);
+            updateProductPrice(id, priceType, oldPrice);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -81,7 +85,7 @@ public class IProductServiceImpl implements IProductService {
         return productRepository.getById(id);
     }
     @Transactional
-    public void updateProductPrice(long id, double price){
+    public void updateProductPrice(long id, String priceType, double oldPrice){
 
         Product updatedProduct= new Product();
         updatedProduct = productRepository.getById(id);
@@ -89,10 +93,16 @@ public class IProductServiceImpl implements IProductService {
         Message message = new Message();
         message.setId(UUID.randomUUID().toString());
         message.setCreatedAt(new Date());
-        message.setMessage(updatedProduct.getId()+" id'li ürünün yeni fiyatı " + price);
+        if(priceType.equalsIgnoreCase("web")){
+            message.setMessage("id"+":"+id+","+ "priceType"+":"+priceType+ ","+ "oldPrice"+":"+ oldPrice+","+"newPrice"+":"+updatedProduct.getPrice());
+
+        }else if(priceType.equalsIgnoreCase("mobil")){
+            message.setMessage("id"+":"+id+","+ "priceType"+":"+priceType+ ","+ "oldPrice"+":"+ oldPrice+","+"newPrice"+":"+updatedProduct.getMobilePrice());
+
+        }
         message.setSeen(false);
         sendMessage.sendToQueue(message);
-        System.out.println(message.getMessage());
+        System.out.println(message.toString());
 
     }
 

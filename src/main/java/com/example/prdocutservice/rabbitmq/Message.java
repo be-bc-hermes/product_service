@@ -7,7 +7,7 @@ public class Message implements Serializable {
     private String id;
     private Date createdAt;
     private Boolean isSeen;
-    private String message;
+    private String messageText;
 
     public String getId() {
         return id;
@@ -34,10 +34,20 @@ public class Message implements Serializable {
     }
 
     public String getMessage() {
-        return message;
+        return messageText;
     }
 
     public void setMessage(String message) {
-        this.message = message;
+        this.messageText = message;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id='" + id + '\'' +
+                ", createdAt=" + createdAt +
+                ", isSeen=" + isSeen +
+                ", message='" + messageText + '\'' +
+                '}';
     }
 }
