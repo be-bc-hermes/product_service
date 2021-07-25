@@ -6,7 +6,6 @@ import java.util.Date;
 public class Message implements Serializable {
     private String id;
     private Date createdAt;
-    private Boolean isSeen;
     private String messageText;
 
     public String getId() {
@@ -25,13 +24,7 @@ public class Message implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public Boolean getSeen() {
-        return isSeen;
-    }
 
-    public void setSeen(Boolean seen) {
-        isSeen = seen;
-    }
 
     public String getMessage() {
         return messageText;
@@ -46,7 +39,6 @@ public class Message implements Serializable {
         return "Message{" +
                 "id='" + id + '\'' +
                 ", createdAt=" + createdAt +
-                ", isSeen=" + isSeen +
                 ", message='" + messageText + '\'' +
                 '}';
     }
