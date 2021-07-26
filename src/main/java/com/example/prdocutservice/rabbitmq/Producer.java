@@ -18,7 +18,8 @@ public class Producer {
     private RabbitTemplate rabbitTemplate;
 
     public void sendToQueue(Message message) {
-        System.out.println("Notification Sent ID : " + message.getId());
+
+        System.out.println("Notification Sent ID : " + message);
         rabbitTemplate.convertAndSend(exchangeName, routingName, message);
     }
 }

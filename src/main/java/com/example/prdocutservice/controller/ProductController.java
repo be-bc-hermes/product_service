@@ -1,11 +1,14 @@
 package com.example.prdocutservice.controller;
 
 import com.example.prdocutservice.entity.Product;
+import com.example.prdocutservice.rabbitmq.ProductDTO;
 import com.example.prdocutservice.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("api/product")
@@ -32,11 +35,12 @@ public class ProductController {
     }
 
 
-    @PutMapping("{id}")
-    public ResponseEntity<?> updatePrice(@RequestBody String body, @PathVariable Long id){
-        System.out.println(body);
-        Product result =productService.update(body, id);
-        return ResponseEntity.ok(result);
+    @PutMapping()
+    public ResponseEntity<String> updatePrice(@RequestBody ProductDTO productDTO){
+
+
+
+        return new ResponseEntity(productService.update(productDTO), HttpStatus.OK);
 
 
     }

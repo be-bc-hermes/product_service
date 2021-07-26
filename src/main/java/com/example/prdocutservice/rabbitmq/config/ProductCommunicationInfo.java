@@ -1,4 +1,4 @@
-package com.example.prdocutservice.rabbitmq;
+package com.example.prdocutservice.rabbitmq.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
     @Configuration
-    public class MessageConfigration{
+    public class ProductCommunicationInfo {
 
         @Value("${sr.rabbit.queue.name}")
         private String queueName;

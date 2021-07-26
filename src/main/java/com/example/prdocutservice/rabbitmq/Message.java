@@ -1,45 +1,16 @@
 package com.example.prdocutservice.rabbitmq;
 
-import java.io.Serializable;
-import java.util.Date;
+import lombok.Builder;
+import lombok.Data;
 
+import java.io.Serializable;
+
+@Data
+@Builder
 public class Message implements Serializable {
     private String id;
-    private Date createdAt;
-    private String messageText;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
+   ProductDTO message;
 
 
 
-    public String getMessage() {
-        return messageText;
-    }
-
-    public void setMessage(String message) {
-        this.messageText = message;
-    }
-
-    @Override
-    public String toString() {
-        return "Message{" +
-                "id='" + id + '\'' +
-                ", createdAt=" + createdAt +
-                ", message='" + messageText + '\'' +
-                '}';
-    }
 }
