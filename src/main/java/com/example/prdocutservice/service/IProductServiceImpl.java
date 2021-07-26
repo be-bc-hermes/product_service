@@ -97,10 +97,10 @@ public class IProductServiceImpl implements IProductService {
         message.setId(UUID.randomUUID().toString());
         message.setCreatedAt(new Date());
         if (priceType.equalsIgnoreCase("web")) {
-            message.setMessage("id" + ":" + id + "," + "priceType" + ":" + priceType + "," + "oldPrice" + ":" + oldPrice + "," + "newPrice" + ":" + updatedProduct.getPrice());
+            message.setMessage("id" + ":" + id + "," + "priceType" + ":" + "DESKTOP" + "," + "oldPrice" + ":" + oldPrice + "," + "newPrice" + ":" + updatedProduct.getPrice());
 
         } else if (priceType.equalsIgnoreCase("mobil")) {
-            message.setMessage("id" + ":" + id + "," + "priceType" + ":" + priceType + "," + "oldPrice" + ":" + oldPrice + "," + "newPrice" + ":" + updatedProduct.getMobilePrice());
+            message.setMessage("id" + ":" + id + "," + "priceType" + ":" + "MOBILE" + "," + "oldPrice" + ":" + oldPrice + "," + "newPrice" + ":" + updatedProduct.getMobilePrice());
 
         }
 
